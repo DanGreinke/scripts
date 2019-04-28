@@ -2,16 +2,21 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import time
-import pyautogui
-import csv
+import time, pyautogui, csv, re
 
 browser = webdriver.Firefox()
 timestamp = time.strftime("%Y%m%d%H%M%S")
-browser.get('https://www.gofundme.com/safer-embarcadero-for-all')
+browser.get('https://www.gofundme.com/safe-embarcadero-for-all')
 time.sleep(3)
+
+donor_count_string = browser.find_element(By.XPATH, "(//div[@class='campaign-status text-small'])[2]").text
+donor_regex = re.compile(r"(\d{1,3}(,\d{3})*)")
+donor_count_string2 = donor_regex.search(donor_count_string).group(1)
+count_array = donor_count_string2.split(",")
+donor_count = int(''.join(count_array))
+
 try:
-	see_more = browser.find_element(By.XPATH, '/html/body/div[2]/div[4]/div[6]/div[2]/div[2]/div[2]/div[1]/a[2]')
+	see_more = browser.find_element(By.XPATH, "(//a[contains(@class,'button secondary expanded hide-in-modal')])[1]") #"(//a[contains(.,'See More')])[2]")
 	see_more.click()
 	print('See more')
 except:
@@ -19,11 +24,11 @@ except:
 
 
 supporters_list = browser.find_element(By.XPATH, "//*[@id='view-donations-modal']")
-#TODO scrape number of donations
-num_donations = 1898
+
+
 i = 0
 
-while i < (num_donations/10):
+while i < (donor_count/10):
 	time.sleep(5)
 	pyautogui.scroll(-100)
 	i+=1
@@ -48,7 +53,6 @@ for row in range(len(donors)):
 
 results.close()
 
-#TODO: 
-	# -Move everything into functions
-	# -Stop using absolute XPATH for see more button
-	# -Extract num_donations automatically
+# #TODO: 
+# 	# -Move everything into functions
+# 	# -Stop using absolute XPATH for see more button
