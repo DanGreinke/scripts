@@ -6,7 +6,9 @@ def generate_password(
     has_symbols: bool = False,
     has_uppercase: bool = False
 ) -> str:
-    print(randomize_pos(password_length, has_symbols, has_uppercase))
+    password = randomize_pos(password_length, has_symbols, has_uppercase)
+    print(password)
+    return password
     
     """Generates a random password.
 
