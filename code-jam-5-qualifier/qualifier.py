@@ -6,6 +6,8 @@ def generate_password(
     has_symbols: bool = False,
     has_uppercase: bool = False
 ) -> str:
+    print(randomize_pos(password_length, has_symbols, has_uppercase))
+    
     """Generates a random password.
 
     The password will be exactly `password_length` characters.
@@ -21,21 +23,62 @@ def generate_password(
     # Capital : 65 through 90
     # lower case: 97 to 122
 
-    def select_special():
-        special_chars = [i for j in (range(32,48), range(58,65), range(91,97), range(123,127)) for i in j]
-        #print(str(special_chars))
-        #print(str(len(special_chars)))
-        random_char = random.randint(0,27)
-        #print(str(random_char))
-        #print(chr(special_chars[random_char]))
-        return chr(special_chars[random_char])
+def select_special():
+    special_chars = [i for j in (range(32,48), range(58,65), range(91,97), range(123,127)) for i in j]
+    random_char = random.randint(0,27)
+    return chr(special_chars[random_char])
 
-    def select_upper():
-        upper_case = chr(random.randint(65,91))
-        return upper_case
+def select_upper():
+    upper_case = chr(random.randint(65,91))
+    return upper_case
 
-    def select_any():
-        chr(random.randint(32,127))
+def select_any():
+    any_char = chr(random.randint(32,127))
+    #print(str(type(any_char)))
+    #print(str(any_char))
+    return any_char
 
-    def randomize_pos(password_length, has_symbols, has_uppercase):
-        return password_length
+def rough_generate(length, sym, uppr):
+    rough_pass = []
+
+    print("length: " + str(length) + "\n" "Symbol?: " + str(sym) + "\n" "Upper?: " + str(uppr))
+
+    if sym == True and uppr == True:
+        length -= 2
+    elif sym ==True or uppr == True:
+        length -= 1
+    else:
+        pass
+
+    for i in range(length):
+        rough_pass.append(select_any())
+
+    return rough_pass
+
+
+def randomize_pos(length, sym, uppr):
+    password = rough_generate(length, sym, uppr)
+    if sym == True:
+        sym_index = random.randint(0,length-1)
+        password.insert(sym_index, select_special())
+        length += 1
+        if uppr == True:
+            uppr_index = random.randint(0,length-1) 
+            password.insert(uppr_index, select_upper())
+        else:
+            pass
+    else:
+        if uppr == True:
+            uppr_index = random.randint(0,length-1) 
+            password.insert(uppr_index, select_upper())
+        else:
+            pass
+
+    pass_str = ''.join(password)
+    return pass_str
+
+
+#select_any()
+#rough_generate(8,True,True)
+#print(randomize_pos(8,True,True))
+generate_password()
