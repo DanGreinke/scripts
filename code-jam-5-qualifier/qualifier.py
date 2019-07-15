@@ -40,8 +40,6 @@ def select_upper():
 
 def select_any():
     any_char = chr(sysrnd().randint(32,127))
-    #print(str(type(any_char)))
-    #print(str(any_char))
     return any_char
 
 def rough_generate(length, sym, uppr):
@@ -83,8 +81,4 @@ def randomize_pos(length, sym, uppr):
     pass_str = ''.join(password)
     return pass_str
 
-
-#select_any()
-#rough_generate(8,True,True)
-#print(randomize_pos(8,True,True))
 generate_password()
