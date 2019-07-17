@@ -1,4 +1,5 @@
 #! python3
+# Navigates to gofundme page, scrolls through donations list, and prints donations to csv.
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
