@@ -3,19 +3,12 @@
 import datetime, time
 import json
 import requests
-import sys
 import yaml
 
 credentials = yaml.safe_load(open('secrets.yaml'))
 api_key = credentials['WEATHER_API']
-
-#current_weather = requests.get('https://samples.openweathermap.org/data/2.5/weather?q=M%C3%BCnchen,DE&appid=b6907d289e10d714a6e88b30761fae22')
-#weather_data = json.loads(current_weather.text)
-#pprint.pprint(current_weather.text)
-
 forecast_weather = requests.get('https://api.openweathermap.org/data/2.5/forecast?q=San+Francisco,us&appid={}'.format(api_key))
 forecast_data = json.loads(forecast_weather.text)
-#pprint.pprint(forecast_data)
 
 def get_time(sample):
     sample_epoch = forecast_data['list'][sample]['dt']
