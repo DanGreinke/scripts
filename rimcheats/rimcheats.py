@@ -9,14 +9,7 @@ PARSER.add_argument("--alltech", help="Unlock the entire tech tree", action="sto
 PARSER.add_argument("--mods", help="Print list of active mods", action="store_true")
 PARSER.add_argument("--research", help="Print current research progress", action="store_true")
 PARSER.add_argument("--upgrade", help="Set all items to \'Excellent\' quality", action="store_true")
-# PARSER.add_argument("--game", type=string, help="Optional input save file name", action="store_true")
-#
-# if args.game:
-#     print("Using file: {}".format(args.game()))
-#     SAVE = SAVE_DIR / args.game()
-# else:
-#     print("Using default file: \'project.rws\'")
-#     SAVE = SAVE_DIR / 'project.rws'
+
 SAVE = SAVE_DIR / 'project.rws'
 TREE = ET.parse(SAVE)
 ROOT = TREE.getroot()
