@@ -50,10 +50,9 @@ def listPlanLocations():
     return plansList
 
 def upgradeItems():
-    #Checks for all tags with name, "quality" and changes the quality to "Excellent"
-    #This will downgrade masterwork items to excellent
+    #Checks for all tags with name, "quality" and changes the quality to "Legendary".
     for quality in ROOT.iter('quality'):
-        new_quality = 'Excellent'
+        new_quality = 'Legendary'
         quality.text = new_quality
     TREE.write(SAVE)
 
