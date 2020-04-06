@@ -8,7 +8,7 @@ PARSER = argparse.ArgumentParser()
 PARSER.add_argument("--alltech", help="Unlock the entire tech tree", action="store_true")
 PARSER.add_argument("--mods", help="Print list of active mods", action="store_true")
 PARSER.add_argument("--research", help="Print current research progress", action="store_true")
-PARSER.add_argument("--upgrade", help="Set all items to \'Excellent\' quality", action="store_true")
+PARSER.add_argument("--upgrade", help="Set all items to \'Legnedary\' quality", action="store_true")
 PARSER.add_argument("--pawns", help="list all pawns in map", action="store_true")
 
 SAVE = SAVE_DIR / 'project.rws'
