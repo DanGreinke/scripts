@@ -24,18 +24,9 @@ def listMods():
         modlist.append(i.text)
     return modlist
 
-def listThings():
-    #return list of all things (e.g. entities, items, buildings, furniture)
-    things = ROOT.findall(".//thing")
-    thingList = []
-    for thing in things:
-        type = thing.find('def').text
-        thingList.append(type)
-    return thingList
-
-def listPawns():
-    #return list of all Pawns (note, this includes entities outside Player faction)
-    things = ROOT.findall('.//thing[@Class="Pawn"]')
+def listData(path):
+    #return list of items in XML tree
+    things = ROOT.findall(path)
     thingList = []
     for thing in things:
         type = thing.find('def').text
@@ -92,7 +83,7 @@ if args.research:
     printDict(researchProgress())
 if args.pawns:
     print("listing pawns")
-    printList(listPawns())
+    printList(listData('.//thing[@Class="Pawn"]'))
 if args.alltech:
     print("Unlocking all tech...")
     allTech()
