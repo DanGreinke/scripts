@@ -8,6 +8,7 @@ SAVE_DIR = Path('/home/dan/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Stu
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument("--alltech", help="Unlock the entire tech tree", action="store_true")
 PARSER.add_argument("--mods", help="Print list of active mods", action="store_true")
+PARSER.add_argument("--clean", help="Delete Filth", action="store_true")
 PARSER.add_argument("--research", help="Print current research progress", action="store_true")
 PARSER.add_argument("--upgrade", help="Set all items to \'Legnedary\' quality", action="store_true")
 PARSER.add_argument("--pawns", help="list all pawns in map", action="store_true")
@@ -29,9 +30,17 @@ def listData(path):
     things = ROOT.findall(path)
     thingList = []
     for thing in things:
-        type = thing.find('def').text
-        thingList.append(type)
+        thingType = thing.find('def').text
+        thingList.append(thingType)
     return thingList
+
+def removeData(path):
+    #delete data matching path
+    parent = ROOT.find(path + '/..')
+    removables = ROOT.findall(path)
+    for r in removables:
+        parent.remove(r)
+    TREE.write(SAVE)
 
 def listPlanLocations():
     plans = ROOT.findall('.//designationManager/allDesignations/li[def="Plan"]')
@@ -83,10 +92,13 @@ if args.research:
     printDict(researchProgress())
 if args.pawns:
     print("listing pawns")
-    printList(listData('.//thing[@Class="Pawn"]'))
+    printList(listData('.//things/thing[@Class="Pawn"]'))
 if args.alltech:
     print("Unlocking all tech...")
     allTech()
 if args.upgrade:
     print("Upgrading Items...")
     upgradeItems()
+if args.clean:
+    print("Removing Filth")
+    removeData('.//thing[@Class="Filth"]')
