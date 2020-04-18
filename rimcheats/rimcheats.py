@@ -91,7 +91,6 @@ def printDict(my_dict):
         print("{:<25s}{:>12.2f}".format(item, my_dict[item]))
     print(LINE)
 
-#args = PARSER.parse_args()
 
 if args.mods:
     print("listing mods" + "\n")
