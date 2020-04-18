@@ -12,8 +12,11 @@ PARSER.add_argument("--clean", help="Delete Filth", action="store_true")
 PARSER.add_argument("--research", help="Print current research progress", action="store_true")
 PARSER.add_argument("--upgrade", help="Set all items to \'Legnedary\' quality", action="store_true")
 PARSER.add_argument("--pawns", help="list all pawns in map", action="store_true")
+PARSER.add_argument("--savefile", help="Enter the name of your save file", type=str)
 
-SAVE = SAVE_DIR / 'project.rws'
+args = PARSER.parse_args()
+
+SAVE = SAVE_DIR / args.savefile
 TREE = ET.parse(SAVE)
 ROOT = TREE.getroot()
 
@@ -88,7 +91,7 @@ def printDict(my_dict):
         print("{:<25s}{:>12.2f}".format(item, my_dict[item]))
     print(LINE)
 
-args = PARSER.parse_args()
+#args = PARSER.parse_args()
 
 if args.mods:
     print("listing mods" + "\n")
