@@ -17,6 +17,9 @@ SAVE = SAVE_DIR / 'project.rws'
 TREE = ET.parse(SAVE)
 ROOT = TREE.getroot()
 
+LINE = "-"*50
+
+
 def listMods():
     #return list of active mods
     mods = ROOT[0][2]
@@ -25,7 +28,7 @@ def listMods():
         modlist.append(i.text)
     return modlist
 
-def listData(path):
+def listThings(path):
     #return list of items in XML tree
     things = ROOT.findall(path)
     thingList = []
@@ -74,13 +77,15 @@ def allTech():
     TREE.write(SAVE)
 
 def printList(my_list):
+    print(LINE)
     for item in my_list:
         print(item)
-
+    print(LINE)
 def printDict(my_dict):
+    print(LINE)
     for item in my_dict:
-        print("{} - {}".format(item, my_dict[item]))
-
+        print("{:<25s}{:>12.2f}".format(item, my_dict[item]))
+    print(LINE)
 #print(listMods())
 args = PARSER.parse_args()
 
@@ -88,11 +93,11 @@ if args.mods:
     print("listing mods" + "\n")
     printList(listMods())
 if args.research:
-    print("Research Progress:"+ "\n")
+    print(LINE + "\n" + "Research Progress:"+ "\n")
     printDict(researchProgress())
 if args.pawns:
-    print("listing pawns")
-    printList(listData('.//things/thing[@Class="Pawn"]'))
+    print(LINE + "\n" + "Listing Pawns")
+    printList(listThings('.//things/thing[@Class="Pawn"]'))
 if args.alltech:
     print("Unlocking all tech...")
     allTech()
