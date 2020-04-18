@@ -81,12 +81,13 @@ def printList(my_list):
     for item in my_list:
         print(item)
     print(LINE)
+
 def printDict(my_dict):
     print(LINE)
     for item in my_dict:
         print("{:<25s}{:>12.2f}".format(item, my_dict[item]))
     print(LINE)
-#print(listMods())
+
 args = PARSER.parse_args()
 
 if args.mods:
