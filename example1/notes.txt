@@ -1,0 +1,115 @@
+(base) dan@osprey:~/scripts/docker_example$ docker build -t python-imdb .
+Sending build context to Docker daemon  4.096kB
+Step 1/4 : FROM python:3.9
+3.9: Pulling from library/python
+32de3c850997: Pull complete 
+fa1d4c8d85a4: Pull complete 
+c796299bbbdd: Pull complete 
+81283a9569ad: Pull complete 
+60b38700e7fb: Pull complete 
+0f67f32c26d3: Pull complete 
+4571fc720a51: Pull complete 
+f938eb1c6191: Pull complete 
+61498f7c3a63: Pull complete 
+Digest: sha256:b8ddeb68904299c09a39aff59d4a713862253b137fdd7ace3a3b7ba0391971b1
+Status: Downloaded newer image for python:3.9
+ ---> 68cf04410baf
+Step 2/4 : ADD main.py .
+ ---> 82da11c23f78
+Step 3/4 : RUN pip install requests beautifulsoup4
+ ---> Running in eccddce28594
+Collecting requests
+  Downloading requests-2.28.1-py3-none-any.whl (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.8/62.8 KB 2.2 MB/s eta 0:00:00
+Collecting beautifulsoup4
+  Downloading beautifulsoup4-4.11.1-py3-none-any.whl (128 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 128.2/128.2 KB 4.7 MB/s eta 0:00:00
+Collecting certifi>=2017.4.17
+  Downloading certifi-2022.12.7-py3-none-any.whl (155 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.3/155.3 KB 10.6 MB/s eta 0:00:00
+Collecting charset-normalizer<3,>=2
+  Downloading charset_normalizer-2.1.1-py3-none-any.whl (39 kB)
+Collecting idna<4,>=2.5
+  Downloading idna-3.4-py3-none-any.whl (61 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.5/61.5 KB 6.9 MB/s eta 0:00:00
+Collecting urllib3<1.27,>=1.21.1
+  Downloading urllib3-1.26.13-py2.py3-none-any.whl (140 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 140.6/140.6 KB 13.7 MB/s eta 0:00:00
+Collecting soupsieve>1.2
+  Downloading soupsieve-2.3.2.post1-py3-none-any.whl (37 kB)
+Installing collected packages: urllib3, soupsieve, idna, charset-normalizer, certifi, requests, beautifulsoup4
+Successfully installed beautifulsoup4-4.11.1 certifi-2022.12.7 charset-normalizer-2.1.1 idna-3.4 requests-2.28.1 soupsieve-2.3.2.post1 urllib3-1.26.13
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+WARNING: You are using pip version 22.0.4; however, version 22.3.1 is available.
+You should consider upgrading via the '/usr/local/bin/python -m pip install --upgrade pip' command.
+Removing intermediate container eccddce28594
+ ---> 0a3139734c48
+Step 4/4 : CMD ["python", "./main.py"]
+ ---> Running in de1fcf2419a2
+Removing intermediate container de1fcf2419a2
+ ---> 4ea687f5b5ef
+Successfully built 4ea687f5b5ef
+Successfully tagged python-imdb:latest
+(base) dan@osprey:~/scripts/docker_example$ docker run python-imdb
+WALL·E (2008), Rating: 8.4, Starring: Andrew Stanton (dir.), Ben Burtt, Elissa Knight
+(base) dan@osprey:~/scripts/docker_example$ docker run python-imdb
+Judgment at Nuremberg (1961), Rating: 8.2, Starring: Stanley Kramer (dir.), Spencer Tracy, Burt Lancaster
+(base) dan@osprey:~/scripts/docker_example$ docker run python-imdb
+The Apartment (1960), Rating: 8.2, Starring: Billy Wilder (dir.), Jack Lemmon, Shirley MacLaine
+(base) dan@osprey:~/scripts/docker_example$ docker build -t python-imdb .
+Sending build context to Docker daemon  4.096kB
+Step 1/4 : FROM python:3.9
+ ---> 68cf04410baf
+Step 2/4 : ADD main.py .
+ ---> f7b5332652d6
+Step 3/4 : RUN pip install requests beautifulsoup4
+ ---> Running in 874aaca93c2e
+Collecting requests
+  Downloading requests-2.28.1-py3-none-any.whl (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.8/62.8 KB 506.7 kB/s eta 0:00:00
+Collecting beautifulsoup4
+  Downloading beautifulsoup4-4.11.1-py3-none-any.whl (128 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 128.2/128.2 KB 3.4 MB/s eta 0:00:00
+Collecting idna<4,>=2.5
+  Downloading idna-3.4-py3-none-any.whl (61 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.5/61.5 KB 6.9 MB/s eta 0:00:00
+Collecting certifi>=2017.4.17
+  Downloading certifi-2022.12.7-py3-none-any.whl (155 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.3/155.3 KB 10.0 MB/s eta 0:00:00
+Collecting urllib3<1.27,>=1.21.1
+  Downloading urllib3-1.26.13-py2.py3-none-any.whl (140 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 140.6/140.6 KB 1.4 MB/s eta 0:00:00
+Collecting charset-normalizer<3,>=2
+  Downloading charset_normalizer-2.1.1-py3-none-any.whl (39 kB)
+Collecting soupsieve>1.2
+  Downloading soupsieve-2.3.2.post1-py3-none-any.whl (37 kB)
+Installing collected packages: urllib3, soupsieve, idna, charset-normalizer, certifi, requests, beautifulsoup4
+Successfully installed beautifulsoup4-4.11.1 certifi-2022.12.7 charset-normalizer-2.1.1 idna-3.4 requests-2.28.1 soupsieve-2.3.2.post1 urllib3-1.26.13
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+WARNING: You are using pip version 22.0.4; however, version 22.3.1 is available.
+You should consider upgrading via the '/usr/local/bin/python -m pip install --upgrade pip' command.
+Removing intermediate container 874aaca93c2e
+ ---> 1792396948f3
+Step 4/4 : CMD ["python", "./main.py"]
+ ---> Running in c276c081ea6c
+Removing intermediate container c276c081ea6c
+ ---> 165e229a93e3
+Successfully built 165e229a93e3
+Successfully tagged python-imdb:latest
+(base) dan@osprey:~/scripts/docker_example$ docker run python-imdb
+The Best Years of Our Lives (1946), Rating: 8.0, Starring: William Wyler (dir.), Myrna Loy, Dana Andrews
+Do you want another movie (y/[n])? Traceback (most recent call last):
+  File "//./main.py", line 46, in <module>
+    main()
+  File "//./main.py", line 40, in main
+    user_input = input('Do you want another movie (y/[n])? ')
+EOFError: EOF when reading a line
+(base) dan@osprey:~/scripts/docker_example$ docker run -it python-imdb
+Downfall (2004), Rating: 8.2, Starring: Oliver Hirschbiegel (dir.), Bruno Ganz, Alexandra Maria Lara
+Do you want another movie (y/[n])? y
+Gladiator (2000), Rating: 8.5, Starring: Ridley Scott (dir.), Russell Crowe, Joaquin Phoenix
+Do you want another movie (y/[n])? y
+The Godfather Part II (1974), Rating: 9.0, Starring: Francis Ford Coppola (dir.), Al Pacino, Robert De Niro
+Do you want another movie (y/[n])? y
+The Lord of the Rings: The Two Towers (2002), Rating: 8.7, Starring: Peter Jackson (dir.), Elijah Wood, Ian McKellen
+Do you want another movie (y/[n])? n
