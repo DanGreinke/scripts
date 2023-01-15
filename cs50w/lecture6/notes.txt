@@ -1,0 +1,127 @@
+# User Interfaces
+
+## Single Page Applications
+
+Use JS to manipulate the DOM, only manipulate the part of the page that's changing
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <title>Single Page</title>
+        <style>
+            div {
+                display: none;
+            }
+        </style>
+        <script>
+            function showPage(page) {
+                // Hide all pages to start
+                document.querySelectorAll('div').forEach(div => {
+                    div.style.display = 'none'
+                })
+                // display selected page
+                document.querySelector(`#${page}`).style.display = 'block';
+            }
+            // Check for pageload
+            document.addEventListener('DOMContentLoaded', function() {
+                // Check for any button being pushed
+                document.querySelectorAll('button').forEach(button => {
+                    button.onclick = function() {
+                        // display page associated with that button
+                        showPage(this.dataset.page);
+                    }
+                })
+            })
+        </script>
+    </header>
+    <body>
+        <button data-page="page1">Page 1</button>
+        <button data-page="page2">Page 2</button>
+        <button data-page="page3">Page 3</button>
+        <div id="page1">
+            1st Page
+        </div>
+        <div id="page2">
+            2nd Page
+        </div>
+        <div id="page3">
+            3rd Page
+        </div>
+    </body>
+</html>
+```
+
+## Window
+
+window is powerful in JS
+- innerwidth
+- innerheight
+- document object
+- window.scrollY: how many pixels down has user scrolled?
+- document.body.offsetHeight: how tall is the page
+
+Note that document.body.offsetHeight = window.scrollY + innerheight
+- lets us detect if user has scrolled to the bottom of the page
+
+<script>
+window.onscroll = () => {
+    if (window.innerheight + window.scrollY >= document.body.offsetHeight) {
+        document.querySelector('body').style.background = 'green';
+    } else {
+        document.querySelector('body').style.background = 'white';
+    }
+}
+</script>
+
+Changing the background color isn't that practical, but there's real uses, like prompting new data to load for infinite scroll
+
+See lecture6 code for details...
+
+
+## Animations
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Animate</title>
+        <style>
+            @keyframes move {
+                from {
+                    left: 0%;
+                } 
+                to {
+                    left: 50%;
+                }
+            }
+
+            h1 {
+                animation-name: move;
+                animation-duration: 2s;
+                animation-fill-mode: forwards;
+                animation-iteration-count: infinite;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                //Start animation paused
+                const h1 = document.querySelector('h1');
+                h1.style.animateionPlayState = 'paused';
+
+                //Play animation on button press
+                document.querySelector('button').onclick = () => {
+                    if (h1.style.animateionPlayState === 'paused') {
+                        h1.style.animateionPlayState = 'running';
+                    } else {
+                        h1.style.animateionPlayState = 'paused';
+                    }
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Hello</h1>
+    </body>
+</html>
+```

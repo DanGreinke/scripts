@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tasks</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                
+
+                // Reject empty bullet points -- disable submit by default
+                document.querySelector('#submit').disabled = true;
+
+                // check we typed something
+                document.querySelector('#task').onkeyup = () => {
+                    // check that string is not empty 
+                    if (document.querySelector('#task').value.length > 0) {
+                        document.querySelector('#submit').disabled = false;
+                    } else {
+                        document.querySelector('#submit').disabled = true;
+                    }
+                }
+
+                document.querySelector('form').onsubmit = () => {
+                    const task = document.querySelector('#task').value;
+                    // console.log(task);
+                    
+                    // Add element to list
+                    const li = document.createElement('li')
+                    li.innerHTML = task;
+                    
+                    document.querySelector('#tasks').append(li)
+                    
+                    // clear out input field after submission
+                    document.querySelector('#task').value='';
+                    
+                    // disable submit button again
+                    document.querySelector('#submit').disabled = true;
+
+                    // Stop form from submitting
+                    return false;
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Tasks</h1>
+        <ul id="tasks">
+
+        </ul>
+        <form>
+            <input id="task" placeholder="New Task" type="text">
+            <!-- Added id='submit' to enable us to check for empty bullets -->
+            <input type="submit" id="submit">
+        </form>
+    </body>
+</html>

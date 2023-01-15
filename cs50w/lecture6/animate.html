@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Animate</title>
+        <style>
+            @keyframes move {
+                from {
+                    left: 0%;
+                } 
+                to {
+                    left: 50%;
+                }
+            }
+
+            h1 {
+                animation-name: move;
+                animation-duration: 2s;
+                animation-fill-mode: forwards;
+                animation-iteration-count: infinite;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                //Start animation paused
+                const h1 = document.querySelector('h1');
+                h1.style.animateionPlayState = 'paused';
+
+                //Play animation on button press
+                document.querySelector('button').onclick = function() {
+                    if (h1.style.animateionPlayState === 'paused') {
+                        h1.style.animateionPlayState = 'running';
+                    } else {
+                        h1.style.animateionPlayState = 'paused';
+                    }
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <button>Click Here</button>
+        <h1>Hello</h1>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 import datetime
 import re
 import time
+from datetime import timedelta, tzinfo
 
 
 def parse_iso8601(timestamp: str) -> datetime.datetime:
@@ -16,8 +17,10 @@ def parse_iso8601(timestamp: str) -> datetime.datetime:
                         r"(?P<minute>\d{2})?"
                         r":?"
                         r"(?P<second>\d{2})?"
-                        r".?"
-                        r"(?P<microsec>\d+)?"
+                        r"(?P<microsec>.\d+)?"
+                        r"(?P<tz_hour>(Z|(\+|-)\d{2}))?"
+                        r":?"
+                        r"(?P<tz_minute>\d{2})?"
                         )
 
     result = regexp.search(timestamp)
@@ -32,12 +35,33 @@ def parse_iso8601(timestamp: str) -> datetime.datetime:
         second = result.group('second')
         microsec = result.group('microsec')
         if microsec != None:
-            if len(microsec) < 6:
+            if len(microsec) < 7:
                 microsec += ("0" * (6 - len(microsec)))
             else:
                 microsec_list = list(microsec)
                 microsec_list[6:] = []
                 microsec = "".join(microsec_list)
+
+        tz_hour = result.group('tz_hour')
+        if tz_hour != None:
+            if tz_hour == 'Z':
+                tz_hour = 0
+            else:
+                tz_hour = int(tz_hour)
+
+        tz_minute = result.group('tz_minute')
+        if tz_minute != None:
+            if tz_hour < 0:
+                tz_minute = int(tz_minute) * -1
+            else:
+                tz_minute = int(tz_minute)
+        elif tz_hour != None and tz_minute == None:
+            tz_minute = 0
+
+        if tz_hour != None:
+            tz_delta = datetime.timezone(timedelta(hours=tz_hour, minutes=tz_minute))
+        else:
+            tz_delta = None
 
     my_time = []
     #print(my_time)
@@ -54,7 +78,7 @@ def parse_iso8601(timestamp: str) -> datetime.datetime:
              + " > " + str(max_time[time]))
 
     my_dt = datetime.datetime(my_time[0], my_time[1], my_time[2], my_time[3],
-                            my_time[4], my_time[5], my_time[6])
+                            my_time[4], my_time[5], my_time[6], tzinfo=tz_delta)
     print(my_dt)
     return my_dt
 
