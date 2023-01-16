@@ -12,21 +12,40 @@ CKnave = Symbol("C is a Knave")
 # Puzzle 0
 # A says "I am both a knight and a knave."
 knowledge0 = And(
-    # TODO
+    # A character is either a knight or a knave
+    Or(AKnight,AKnave),
+    # A says theyre both a knight and a knave
+    Implication(AKnight, And(AKnight,AKnave))
 )
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
 knowledge1 = And(
-    # TODO
+    #Each character is a knight or a knave
+    Or(AKnight, AKnave),
+    Or(BKnight, BKnave),
+    # If A tells the truth, both caracters are Knaves
+    Implication(AKnight, And(AKnave, BKnave)),
+    # If A lies, then they're not both knaves
+    Implication(AKnave, Not(And(AKnave, BKnave)))
 )
 
 # Puzzle 2
 # A says "We are the same kind."
 # B says "We are of different kinds."
 knowledge2 = And(
-    # TODO
+    #Each character is a knight or a knave
+    Or(AKnight, AKnave),
+    Or(BKnight, BKnave),
+    # A says they're the same kind
+    #    If A tells the truth, they're both knights
+    Implication(AKnight, And(BKnight, AKnight)),
+    #    If A lies, then B is a knight and A is a knave
+    Implication(AKnave, And(BKnight, AKnave)),
+    # B Says they're different Kinds
+    Implication(BKnight, And(BKnight, AKnave)),
+    Implication(BKnave, Not(And(BKnight, AKnave)))
 )
 
 # Puzzle 3
@@ -35,7 +54,21 @@ knowledge2 = And(
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    # TODO
+    #Each character is a knight or a knave
+    Or(AKnight, AKnave),
+    Or(BKnight, BKnave),
+    Or(CKnight, CKnave),
+    # A says they're a knight or a knave, but we don't know which
+    Implication(AKnight, Or(AKnight,AKnave)),
+    # B says that A said that B is a knave
+    Implication(BKnight, Implication(AKnave, BKnave)),
+    Implication(BKnave, Implication(AKnight, BKnave)),
+    # B says that C is a knave
+    Implication(BKnight, CKnave),
+    Implication(BKnave, Not(CKnave)),
+    # C says that A is a Knight
+    Implication(CKnight, AKnight),
+    Implication(CKnave, Not(AKnight))
 )
 
 
