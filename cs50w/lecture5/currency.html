@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Currency Exchange</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                
+                //Input API key (from apilayer.com)
+                var myHeaders = new Headers();
+                myHeaders.append("apikey", "kebs4F0GuiMGqioFzBXRVxRhGzOmZyRm");
+
+                //Set request options for our fetch below
+                var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                headers: myHeaders
+                };
+
+                document.querySelector('form').onsubmit = function () {
+                    
+                    // we expect a 'promised' response, which may be delayed
+                    fetch('https://api.exchangeratesapi.io/latest?base=USD', requestOptions)
+                    // after delay
+                    .then(response => {
+                        return response.json()
+                    })
+                    .then(data => {
+                        const currency = document.querySelector('#currency').value.toUpperCase();
+                        const rate = data.rates[currency];
+                        if (rate !== undefined) {
+                            document.querySelector('#result').innerHTML = `1 USD = ${rate.toFixed(3)}`;
+                        } else {
+                            document.querySelector('#result').innerHTML = `invalid currency`;
+                        }
+                    })
+                    .catch(error => {
+                        console.log('Error:', error);
+                    });
+                    return false;
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <form>
+            <input id="currency" placeholder="Currency" type="text">
+            <input type="submit" value="Convert">
+        </form>
+        <div id="result">
+
+        </div>
+    </body>
+</html>

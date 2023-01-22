@@ -1,0 +1,472 @@
+# Javascript
+
+## Why it's useful
+
+Client <> Server
+
+So far, our code ran on the server only. JS runs on the client side.
+
+Uses
+* Computation can be done faster on client side
+* More interactive web pages
+* Document Object Model
+
+In HTML, add JS using <script> </script> tags
+
+E.g.
+
+<script>
+    alert('Hello World');
+</script>
+
+### Exercise - Hello World Alert:
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello</title>
+        <script>
+            alert('Hello, World!');
+        </script>
+    </head>
+    <body>
+        <h1>Hello!</h1>
+        
+    </body>
+</html>
+```
+
+## Event Driven Programming
+
+Anything done by the user is an 'event'. We can add 'listeners', and when an 'event' happens, we do something.
+
+In hello.html, we added
+* A button, to trigger the alert
+* Defined a function for the alert
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello</title>
+        <script>
+            function hello(){
+                alert('Hello, World!');                
+            }
+            
+        </script>
+    </head>
+    <body>
+        <h1>Hello!</h1>
+        <button onclick="hello()">
+            Click Here
+        </button>
+    </body>
+</html>
+```
+
+## Variables
+
+Increment counter and display alert
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Counter</title>
+        <script>
+            let counter = 0;
+            function count() {
+                counter++;
+                alert(counter);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Hello!</h1>
+        <button onclick="count()">
+            Count
+        </button>
+    </body>
+</html>
+```
+
+## querySelector
+
+Using alerts to interact with the user would be annoying. Let's change the page itself...
+
+Switch out the alert() in hello.html with the querySelector
+
+`document.querySelector('h1').innerHTML='Goodbye!';`
+
+
+## Document Object Model manipulation
+
+### Conditionals
+
+Alternate alert b/w hello and Goodbye
+
+```
+function hello(){
+    if (document.querySelector('h1').innerHTML==='Hello!')
+    {
+        document.querySelector('h1').innerHTML='Goodbye!';
+    } else {
+        document.querySelector('h1').innerHTML='Hello!';
+    }              
+}
+```
+
+We can improve the efficiency by storing the found h1 element in a Variables.
+In addition, assign heading to a 'const' so we don't accidentally reuse that variable name.
+
+```
+function hello(){
+    const heading = document.querySelector('h1');
+    if (heading.innerHTML==='Hello!')
+    {
+        heading.innerHTML='Goodbye!';
+    } else {
+        heading.innerHTML='Hello!';
+    }              
+}
+```
+
+Using this, we can also improve the counter.html file.
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Counter</title>
+        <script>
+            let counter = 0;
+            function count() {
+                counter++;
+                document.querySelector('h1').innerHTML = counter;
+
+                if (counter % 10 === 0) {
+                    alert(`Count is now ${counter}`);
+                }
+            }
+
+            document.querySelector('button').onclick = count();
+
+        </script>
+    </head>
+    <body>
+        <h1>0</h1>
+        <button onclick="count()">
+            Count
+        </button>
+    </body>
+</html>
+```
+
+Note that this line assigns the function to the button
+`document.querySelector('button').onclick = count();`
+
+This may throw an error, as written. Replace with the following, which tells us to wait until the entire page is loaded to assign that var.
+
+```
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('button').onclick = count;
+});
+```
+
+Whole file looks like this for counter.html
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Counter</title>
+        <script>
+            let counter = 0;
+            function count() {
+                counter++;
+                document.querySelector('h1').innerHTML = counter;
+
+                if (counter % 10 === 0) {
+                    alert(`Count is now ${counter}`);
+                }
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('button').onclick = count;
+            });
+        </script>
+    </head>
+    <body>
+        <h1>0</h1>
+        <button onclick="count()">
+            Count
+        </button>
+    </body>
+</html>
+```
+
+### Separating our concerns; move JS into separate file
+
+Move everything in <script> tags to counter.JS
+
+Simplify the script tags:
+`<script src="counter.js"></script>`
+
+### Specific queries with querySelector
+
+Use these css-like queries to get more specific, such as if there's multiple h1 elements, forms, etc.
+* document.querySelector('tag')
+* document.querySelector('#id')
+* document.querySelector('.class')
+
+Alert with user's name, after submitting it in text box:
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('form').onsubmit = function() {
+                const name = document.querySelector('#name').value;
+                alert(`Hello, ${name}!`)
+                };
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Hello!</h1>
+        <form>
+            <input autofocus id="name" placeholder="Name" type="text">
+            <input type="submit">
+        </form>
+    </body>
+</html>
+```
+
+### We can change the style of elements:
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Colors</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                //change font to red
+                document.querySelector('#red').onclick = function() {
+                    document.querySelector('#hello').style.color = 'red';
+                }
+                //change font to green
+                document.querySelector('#green').onclick = function() {
+                    document.querySelector('#hello').style.color = 'green';
+                }
+                //change font to blue
+                document.querySelector('#blue').onclick = function() {
+                    document.querySelector('#hello').style.color = 'blue';
+                }
+            }); 
+        </script>
+    </head>
+    <body>
+        <h1 id="hello">
+            Hello!
+        </h1>
+        <button id="red">Red</button>
+        <button id="green">Green</button>
+        <button id="blue">Blue</button>
+    </body>
+</html>
+```
+But we don't like copy/pasting the same code...
+    * Loop over buttons instead
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Colors</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('button').forEach(function(button) {
+                    button.onclick = function (){
+                        document.querySelector('#hello').style.color = button.dataset.color;
+                    }
+                });
+            }); 
+        </script>
+    </head>
+    <body>
+        <h1 id="hello">
+            Hello!
+        </h1>
+        <button data-color="red">Red</button>
+        <button data-color="green">Green</button>
+        <button data-color="blue">Blue</button>
+    </body>
+</html>
+```
+
+Arrow notation...
+function(button) is the same as button =>
+function() is the same as () => 
+
+Using selector:
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Colors</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('select').onchange = function() {
+                    document.querySelector('#hello').style.color = this.value;
+                }
+            }); 
+        </script>
+    </head>
+    <body>
+        <h1 id="hello">
+            Hello!
+        </h1>
+        <select>
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select>
+    </body>
+</html>
+```
+
+Events that may be useful
+* onclick -- when user clicks
+* onmouseover -- user hovers mouse over element
+* onkeydown -- a key is held down
+* onkeyup -- a key is lifted
+* onload ...
+* onblur ...
+
+### Make TODO list
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tasks</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                
+
+                // Reject empty bullet points -- disable submit by default
+                document.querySelector('#submit').disabled = true;
+
+                // check we typed something
+                document.querySelector('#task').onkeyup = () => {
+                    // check that string is not empty 
+                    if (document.querySelector('#task').value.length > 0) {
+                        document.querySelector('#submit').disabled = false;
+                    } else {
+                        document.querySelector('#submit').disabled = true;
+                    }
+                }
+
+                document.querySelector('form').onsubmit = () => {
+                    const task = document.querySelector('#task').value;
+                    // console.log(task);
+                    
+                    // Add element to list
+                    const li = document.createElement('li')
+                    li.innerHTML = task;
+                    
+                    document.querySelector('#tasks').append(li)
+                    
+                    // clear out input field after submission
+                    document.querySelector('#task').value='';
+                    
+                    // disable submit button again
+                    document.querySelector('#submit').disabled = true;
+
+                    // Stop form from submitting
+                    return false;
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Tasks</h1>
+        <ul id="tasks">
+
+        </ul>
+        <form>
+            <input id="task" placeholder="New Task" type="text">
+            <!-- Added id='submit' to enable us to check for empty bullets -->
+            <input type="submit" id="submit">
+        </form>
+    </body>
+</html>
+```
+
+## Intervals
+
+```
+let counter = 0;
+function count() {
+    counter++;
+    document.querySelector('h1').innerHTML = counter;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('button').onclick = count;
+
+    // Increment counter every 1000 ms, or every second
+    setInterval(count, 1000);
+});
+```
+
+## Local Storage
+To save data from user sessions, we need to save data in local Storage
+
+* localStorage.getItem(key)
+* localStorage.setItem(key, value)
+
+Counter
+```
+if (!localStorage.getItem('counter')) {
+    localStorage.setItem('counter', 0);
+}
+
+let counter = 0;
+function count() {
+    let counter = localStorage.getItem('counter');
+    counter++;
+    document.querySelector('h1').innerHTML = counter;
+    localStorage.setItem('counter', counter);
+}
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('button').onclick = count;
+    document.querySelector('h1').innerHTML = localStorage.getItem('counter');
+    // Increment counter every 1000 ms, or every second
+});
+```
+
+Vars in console:
+```
+let person = {
+    first: 'Harry',
+    last: 'Potter'
+};
+undefined
+person.first
+'Harry'
+person.last
+'Potter'
+```
+
+## APIs
+
+JSON - Javascript Object Notation - is the shit
+
+JSON is both human readable and machine readable
+
+
+
