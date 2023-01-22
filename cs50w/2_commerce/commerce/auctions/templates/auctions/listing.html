@@ -1,0 +1,36 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{listing.title}} - {{listing.category}} - ${{listing.current_price}}</h2>
+    <img src="{{listing.image_url}}" width="500"><br>
+    {{listing.description}}<br>
+    Bid:
+    <form action="{{request.get_full_path}}/bid" method="POST">
+        {% csrf_token %}
+        <input type="number" step="any" method="POST" name="bid">
+        <input type="submit" value="Place Bid">
+    </form>
+    Watchlist: 
+    <form action ="{{request.get_full_path}}/watchlist" method = "POST">
+        {% csrf_token %}
+        <input type="checkbox" value="True" name="checkbox">
+        <input type = "submit" value="Update Watchlist">
+    </form>
+    Comments:
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <strong>{{comment.user}}</strong><br>
+                {{comment.comment}}
+            </li>
+        {% empty %}
+            <li>No comments</li>
+        {% endfor %}
+    </ul>
+    <form action="{{request.get_full_path}}/addcomment" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <input type = "submit" value="Submit">
+    </form>
+
+{% endblock %}

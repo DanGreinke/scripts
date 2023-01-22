@@ -1,0 +1,71 @@
+body {
+    background-color: black;
+    font-family: arial;
+}
+
+a:link {
+    color:yellow
+}
+
+a:visited {
+    color:greenyellow
+}
+
+.Options {
+    text-align:right;
+}
+
+.Header {
+    font-size:56px;
+    color:brown;
+    text-align: center;
+}
+
+.Search {
+    text-align:center;
+    color:brown;
+    justify-content: center;
+}
+
+.Advanced {
+    text-align: left;
+}
+
+div {
+    background-color:black;
+    padding:3px;
+    border:3px;
+}
+
+input[type=text] {
+    width: 500px;
+    padding: 12px 24px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: #444444;
+    border-color: brown;
+    border-radius: 20px;
+    color:white;
+    font-size:20px
+  }
+
+input[type=submit] {
+    background-color: #444444;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+table {
+    color: brown;
+    font-size: 20px;
+}
+
+td, tr {
+    padding: 10px;
+}
