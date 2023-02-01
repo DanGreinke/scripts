@@ -59,12 +59,12 @@ def transition_model(corpus, page, damping_factor):
     """
     
     distribution = dict()
-    corpus_structure = crawl(corpus)
+    corpus_structure = corpus
     corpus_length = len(corpus_structure)
     for p in corpus_structure:
-        distribution[p] = damping_factor/corpus_length
+        distribution[p] = (1-damping_factor)/corpus_length
         if p in corpus_structure[page]:
-            distribution[p] += (1-damping_factor) / len(corpus_structure[page]) 
+            distribution[p] += damping_factor / len(corpus_structure[page]) 
     
     return distribution
 
@@ -79,7 +79,7 @@ def sample_pagerank(corpus, damping_factor, n):
     PageRank values should sum to 1.
     """
     # Initial page selection
-    page = random.choice([p for p in crawl(corpus)])
+    page = random.choice([p for p in corpus])
     result = dict()
     for i in range(n):
         t = transition_model(corpus, page, damping_factor)
@@ -96,7 +96,9 @@ def sample_pagerank(corpus, damping_factor, n):
     total = sum([result[i] for i in result])
     for i in result:
         result[i] = result[i]/total
+    
     return result
+
 
 def iterate_pagerank(corpus, damping_factor):
     """
@@ -107,7 +109,28 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    # Initialize variables
+    c = corpus
+    N = len(c)
+    d = damping_factor
+    # returns dict with the other page name and number of links, 
+    # if the other page links to page p
+    numlinks = lambda p, cp : {i:len(cp[i]) for i in cp if p in cp[i]}
+    # Initialize ranks to be equal for all pages in corpus
+    rank0 = {p:1/N for p in c}
+
+    flag = True
+    while flag:
+        flag = False
+        rank1 = dict()
+        for p in rank0:
+            pagelinks = numlinks(p=p,cp=corpus)
+            rank1[p] = (1-d)/N + d*sum([rank0[i]/pagelinks[i] for i in pagelinks])
+            if abs(rank1[p] - rank0[p]) > 0.001:
+                flag = True
+        rank0 = rank1
+
+    return rank1
 
 
 if __name__ == "__main__":
