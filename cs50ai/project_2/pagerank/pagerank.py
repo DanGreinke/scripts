@@ -118,17 +118,14 @@ def iterate_pagerank(corpus, damping_factor):
     numlinks = lambda p, cp : {i:len(cp[i]) for i in cp if p in cp[i]}
     # Initialize ranks to be equal for all pages in corpus
     rank0 = {p:1/N for p in c}
+    rank1 = {p:0 for p in c}
 
-    flag = True
-    while flag:
-        flag = False
+    while max([abs(rank1[i] - rank0[i]) for i in c]) > 0.001:
+        rank0 = rank1 if rank1 != {p:0 for p in c} else rank0
         rank1 = dict()
         for p in rank0:
             pagelinks = numlinks(p=p,cp=corpus)
             rank1[p] = (1-d)/N + d*sum([rank0[i]/pagelinks[i] for i in pagelinks])
-            if abs(rank1[p] - rank0[p]) > 0.001:
-                flag = True
-        rank0 = rank1
 
     return rank1
 
