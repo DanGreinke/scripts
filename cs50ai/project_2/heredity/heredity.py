@@ -128,7 +128,7 @@ def powerset(s):
     ]
 
 
-def joint_probability(people, one_gene, two_genes, have_trait): # probably good
+def joint_probability(people, one_gene, two_genes, have_trait):
     """
     Compute and return a joint probability.
 
@@ -170,20 +170,15 @@ def joint_probability(people, one_gene, two_genes, have_trait): # probably good
         else:
             person_has_trait = False        
 
-        # print("Person: " + person + " Num genes: " + str(p_ng))
-        # print("Person: " + str(father) + " Num genes: " + str(f_ng))
-        # print("Person: " + str(mother) + " Num genes: " + str(m_ng))
         if mother == father == None:
-            # print("Prob gene:  " + str(PROBS["gene"][p_ng]))
-            # print("Prob trait: " + str(PROBS["trait"][p_ng][person_has_trait]) + " testing for trait " + str(person_has_trait))
+
             combined_prob = PROBS["gene"][p_ng] * PROBS["trait"][p_ng][person_has_trait]
             joint_prob *=  combined_prob
-            # print("Joint Prob: " + str(combined_prob))
         else:
             # 2 -> 1.0 - 0.01 = 0.99
             # 1 -> 0.5(1 - 0.01) + 0.5(0 + 0.01) = 0.50 -- it's equally likely that we mutate the non target gene into a target gene and vice versa
             # 0 -> abs(0.0 - 0.01) = 0.01
-            # Abstract: (ng)/2 * (1-0.01) + (2 - ng)/2 * (0 + 0.01) = prob_pass_on
+            # Abstract version: (ng)/2 * (1-0.01) + (2 - ng)/2 * (0 + 0.01) = prob_pass_on
             P_h = lambda ng: (ng/2)*(1-PROBS["mutation"]) + ((2 - ng)/2)*(0 + PROBS["mutation"])
 
             if person in two_genes:
@@ -193,11 +188,7 @@ def joint_probability(people, one_gene, two_genes, have_trait): # probably good
                 child_heredity = (P_h(m_ng) * (1-P_h(f_ng)) + P_h(f_ng) * (1-P_h(m_ng))) * PROBS["trait"][1][person_has_trait]
             else:
                 child_heredity = (1-P_h(f_ng)) * (1-P_h(m_ng)) * PROBS["trait"][0][person_has_trait]
-            # print("child heredity: " + str(child_heredity))
-            # print("  father: " + str(P_h(f_ng)))
-            # print("  mother: " + str(P_h(m_ng)))
             joint_prob *= child_heredity
-            # print("Joint Prob: " + str(joint_prob))
     
     return joint_prob
 
@@ -214,12 +205,12 @@ def update(probabilities, one_gene, two_genes, have_trait, p):
             probabilities[person]["gene"][1] += p
         elif person in two_genes:
             probabilities[person]["gene"][2] += p
-        else: #elif person not in one_gene and person not in two_genes:
+        else:
             probabilities[person]["gene"][0] += p
         probabilities[person]["trait"][bool(person in have_trait)] += p
 
 
-def normalize(probabilities): # good
+def normalize(probabilities):
     """
     Update `probabilities` such that each probability distribution
     is normalized (i.e., sums to 1, with relative proportions the same).
